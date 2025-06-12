@@ -7,7 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class BasePage {
     public static WebDriver driver;
 
-    public void luanchURL(String url) {
+    public void luanchURL(String url) throws InterruptedException {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.get(url);

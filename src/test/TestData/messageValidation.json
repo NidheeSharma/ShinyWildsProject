@@ -1,0 +1,8 @@
+{
+  "loginValidationMessage": {
+  "expectedInvalidUsernameAndPasswordErrorMsg": "Invalid username/email or password",
+  "expectedUsernameRequiredMsg": "Email/Username Required",
+  "expectedPasswordRequiredMsg": "Password is required"
+  }
+
+}

@@ -1,0 +1,28 @@
+{
+  "signupWithValidData": {
+    "password": "Test@1234",
+    "confirmPassword": "Test@1234",
+    "firstName": "Test",
+    "lastName": "User",
+    "address": "123 Test Street",
+    "countryForPhoneNumber": "Australia",
+    "phoneNumber": "1234567890",
+    "city": "TestCity",
+    "postCode": "123456"
+  },
+
+  "signupWithInvalidData": {
+    "email": "seconduser",
+    "username": "seconduser",
+    "password": "Test@5678",
+    "confirmPassword": "Test@5678",
+    "firstName": "Second",
+    "lastName": "User",
+    "address": "456 Another St",
+    "phoneNumber": "9876543210",
+    "city": "CityTwo",
+    "postCode": "654321"
+  }
+}
+
+

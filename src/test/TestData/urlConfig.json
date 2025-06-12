@@ -1,0 +1,33 @@
+{
+  "shinyWilds":{
+  "baseUrl": "https://www.shinywilds.com/en/",
+  "expectedHomePageUrl": "https://www.shinywilds4.com/en/",
+  "expectedCasinoPageUrl": "https://www.shinywilds.com/en/casino/all",
+  "expectedSignUpPageUrl": "https://www.shinywilds.com/en/signup",
+  "expectedForgotPasswordPageUrl": "https://www.shinywilds.com/en/forgot-password",
+  "expectedGermanLoggedInUrl": "https://www.shinywilds.com/de/login"
+  },
+  "lucky10": {
+    "baseUrl": "https://www.lucky10s.com/en/",
+    "expectedHomePageUrl": "https://www.lucky10s.com/en/",
+    "expectedSignUpPageUrl": "https://www.lucky10s.com/en/signup",
+    "expectedForgotPasswordPageUrl": "https://www.lucky10s.com/en/forgot-password",
+    "expectedGermanLoggedInUrl": "https://www.lucky10s.com/de/login"
+  },
+  "slotSpinner": {
+    "baseUrl": "https://slotspinner.com/"
+
+  },
+  "betterWin": {
+    "baseUrl": "https://www.betterwin.com/en/",
+    "expectedHomePageUrl": "https://www.betterwin.com/en/",
+    "expectedSignUpPageUrl": "https://www.betterwin.com/en/signup",
+    "expectedForgotPasswordPageUrl": "https://www.betterwin.com/en/forgot-password",
+    "expectedGermanLoggedInUrl": "https://www.betterwin.com/de/login"
+
+
+  },
+  "winning": {
+    "baseUrl": "https://www.winning.io/en/"
+  }
+}

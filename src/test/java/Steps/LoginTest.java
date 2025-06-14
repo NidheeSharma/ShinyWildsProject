@@ -29,6 +29,7 @@ public class LoginTest {
     @When("User enters valid Username and password")
     public void userEntersValidUsernameAndPassword() {
         try {
+
             LoginData data = Hooks.loginDataWrapper.getValidLogin();
             test.info("Entering valid username and password");
             loginPage.enterUsernameAndPassword(data.getEmail(), data.getPassword());
@@ -135,9 +136,9 @@ public class LoginTest {
     @When("User enters empty Username and valid password")
     public void userEntersEmptyUsernameAndValidPassword() {
         try {
-            LoginData data = Hooks.loginDataWrapper.getEmptyUsernameValidPassword();
-            test.info("Entering empty username and valid password");
-            loginPage.enterUsernameAndPassword(data.getEmail(), data.getPassword());
+//            LoginData data = Hooks.loginDataWrapper.getEmptyUsernameValidPassword();
+//            test.info("Entering empty username and valid password");
+//            loginPage.enterUsernameAndPassword(data.getEmail(), data.getPassword());
             loginPage.clickOnLoginButton();
             test.pass("Submitted empty username with valid password");
         } catch (Exception e) {

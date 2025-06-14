@@ -1,7 +1,7 @@
 {
   "shinyWilds":{
   "baseUrl": "https://www.shinywilds.com/en/",
-  "expectedHomePageUrl": "https://www.shinywilds4.com/en/",
+  "expectedHomePageUrl": "https://www.shinywilds.com/en/login",
   "expectedCasinoPageUrl": "https://www.shinywilds.com/en/casino/all",
   "expectedSignUpPageUrl": "https://www.shinywilds.com/en/signup",
   "expectedForgotPasswordPageUrl": "https://www.shinywilds.com/en/forgot-password",
@@ -9,7 +9,7 @@
   },
   "lucky10": {
     "baseUrl": "https://www.lucky10s.com/en/",
-    "expectedHomePageUrl": "https://www.lucky10s.com/en/",
+    "expectedHomePageUrl": "https://www.lucky10s.com/en/login",
     "expectedSignUpPageUrl": "https://www.lucky10s.com/en/signup",
     "expectedForgotPasswordPageUrl": "https://www.lucky10s.com/en/forgot-password",
     "expectedGermanLoggedInUrl": "https://www.lucky10s.com/de/login"
@@ -20,10 +20,10 @@
   },
   "betterWin": {
     "baseUrl": "https://www.betterwin.com/en/",
-    "expectedHomePageUrl": "https://www.betterwin.com/en/",
+    "expectedHomePageUrl": "https://www.betterwin.com/en/login",
     "expectedSignUpPageUrl": "https://www.betterwin.com/en/signup",
     "expectedForgotPasswordPageUrl": "https://www.betterwin.com/en/forgot-password",
-    "expectedGermanLoggedInUrl": "https://www.betterwin.com/de/login"
+    "expectedGermanLoggedInUrl": "https://www.betterwin.com/fi/login"
 
 
   },

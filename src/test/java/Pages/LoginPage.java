@@ -3,8 +3,11 @@ package Pages;
 import Utils.ConfigManager;
 import Utils.ElementActions;
 import Utils.JsonReader;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 public class LoginPage {
@@ -71,28 +75,42 @@ WebElement logout;
 @FindBy(xpath = "//span[@class='toast-title']")
 WebElement successMessage;
 
+@FindBy(className = "siqico-close")
+WebElement crossForPopup;
+
+@FindBy(id = "titlediv")
+WebElement weAreOnlinePopUP;
+
 
     public LoginPage(WebDriver driver){
     this.driver = driver;
     PageFactory.initElements(driver,this);
-    wait = new WebDriverWait(driver,Duration.ofSeconds(30));
+    wait = new WebDriverWait(driver,Duration.ofSeconds(10));
     site = ConfigManager.getSite();
     loginValidation = ConfigManager.getValidationMessage();
 }
 
-    public void clickOnAccept(){
-    if (acceptCookie.isDisplayed()){
-       wait.until(ExpectedConditions.visibilityOf(acceptCookie));
-       wait.until(ExpectedConditions.elementToBeClickable(acceptCookie));
-       ElementActions.clickWithRetry(acceptCookie);
-       //acceptCookie.click();
-    }else {
-      System.out.println("Accept cookie is not present");}
+    public void clickOnAccept() {
+        try {
+            if (acceptCookie.isDisplayed()) {
+                wait.until(ExpectedConditions.visibilityOf(acceptCookie));
+                wait.until(ExpectedConditions.elementToBeClickable(acceptCookie));
+                ElementActions.clickWithRetry(acceptCookie);
+                System.out.println("Accept cookie clicked successfully");
+            } else {
+                System.out.println("Accept cookie is not displayed");
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("Accept cookie element not found on the page");
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            System.out.println("Unexpected error occurred while clicking accept cookie: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-
     public void clickOnLoginButtonOnHomePage(){
-    clickOnAccept();
     wait.until(ExpectedConditions.elementToBeClickable(loginButtonOnHomePage));
     loginButtonOnHomePage.click(); }
 
@@ -139,7 +157,25 @@ WebElement successMessage;
     }
 
     public void clickOnSignUp(){
-        signUp.click();
+        try{
+            if (weAreOnlinePopUP.isDisplayed())
+            {
+                Actions ac = new Actions(driver);
+                wait.until(ExpectedConditions.visibilityOf(weAreOnlinePopUP));
+                wait.until(ExpectedConditions.elementToBeClickable(weAreOnlinePopUP));
+                ac.moveToElement(weAreOnlinePopUP).perform();
+                ac.click(crossForPopup).perform();
+                signUp.click();
+            }
+            else {
+                signUp.click();
+            }
+
+        }catch (Exception e) {
+            signUp.click();
+
+        }
+
     }
 
     public void verifySignUpPage(){

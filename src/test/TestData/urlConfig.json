@@ -23,7 +23,7 @@
     "expectedHomePageUrl": "https://www.betterwin.com/en/login",
     "expectedSignUpPageUrl": "https://www.betterwin.com/en/signup",
     "expectedForgotPasswordPageUrl": "https://www.betterwin.com/en/forgot-password",
-    "expectedGermanLoggedInUrl": "https://www.betterwin.com/fi/login"
+    "expectedFinnishLoggedInUrl": "https://www.betterwin.com/fi/login"
 
 
   },

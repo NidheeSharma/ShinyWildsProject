@@ -25,35 +25,33 @@ public class Hooks {
     public static LoginDataWrapper loginDataWrapper;
     public static SignupDataWrapper signupDataWrapper;
 
-    static {
+    @Before(order = 0)
+    public void loadTestData() {
         try {
             loginDataWrapper = JsonReader.getLoginData("src/test/TestData/loginData.json");
             System.out.println("Login data loaded using POJO.");
         } catch (Exception e) {
             System.out.println("Failed to initialize loginDataWrapper: " + e.getMessage());
         }
-    }
 
-    static {
         try {
             signupDataWrapper = JsonReader.getSignupData("src/test/TestData/signupData.json");
             System.out.println("Signup data loaded using POJO.");
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Failed to initialize signupDataWrapper: " + e.getMessage());
         }
+    }
+
+    @Before(order = 1)
+    public void setUpScenario(Scenario scenario) throws InterruptedException {
+        basePage.luanchURL(baseUrl);
+        test = extent.createTest(scenario.getName());
     }
 
 
     @BeforeAll
     public static void setUpReport() {
         extent = ExtentManager.getInstance();
-    }
-
-    @Before
-    public void setUpScenario(Scenario scenario) throws InterruptedException {
-        basePage.luanchURL(baseUrl);
-        // Start a new test in Extent Report
-        test = extent.createTest(scenario.getName());
     }
 
     @After

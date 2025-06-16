@@ -1,11 +1,10 @@
 package Pages;
 
 import Utils.ConfigManager;
-import com.github.javafaker.Faker;
+import Utils.TimestampDataGenerator;
+import hooks.Hooks;
 import model.SignupData;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,7 +14,6 @@ import org.testng.Assert;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class SignUpPage {
 
@@ -23,6 +21,8 @@ public class SignUpPage {
     WebDriver driver;
     WebDriverWait wait;
     String site;
+
+    SignupData timestampData = TimestampDataGenerator.generateValidSignupData();
 
 
     @FindBy(css = "a[class='signup-btn btn-hover-effect']")
@@ -124,16 +124,22 @@ public class SignUpPage {
     @FindBy(css = "span:nth-of-type(2)")
     WebElement signUpPleaseCheckTheRequestDataErrorMessage;
 
+    @FindBy(xpath = "//div[@class='signup-form-detail'][1]/div[@class='custom-form-group'][1]//div[@class='error-message']")
+    WebElement invalidEmail;
+
+    @FindBy(css = "div[class='signup-form-detail']:nth-of-type(1)>div[class='custom-form-group']:nth-of-type(2) div[class='error-message']")
+    WebElement usernameRequired;
+
     @FindBy(css = "div[class='position-relative']:nth-of-type(2) div[class='error-message']")
     WebElement passwordIsRequired;
 
     @FindBy(css = "div[class='custom-form-group icon_include password-info']:nth-of-type(4) div[class='error-message']")
     WebElement confirmPasswordRequired;
 
-    @FindBy(css = "div[class='custom-form-group']:nth-of-type(1) div[class='error-message']")
+    @FindBy(css = "div[class='signup-form-detail']:nth-of-type(2)>div[class='custom-form-group']:nth-of-type(1) div[class='error-message']")
     WebElement firstNameRequired;
 
-    @FindBy(css = "div[class='custom-form-group']:nth-of-type(2) div[class='error-message']")
+    @FindBy(css = "div[class='signup-form-detail']:nth-of-type(2)>div[class='custom-form-group']:nth-of-type(2) div[class='error-message']")
     WebElement lastNameRequired;
 
     @FindBy(css = "div[class='custom-form-group']:nth-of-type(4) div[class='error-message']")
@@ -148,6 +154,9 @@ public class SignUpPage {
     @FindBy(css = "div[class='custom-form-group']:nth-of-type(7) div[class='error-message']")
     WebElement postCodeRequired;
 
+    @FindBy(xpath = "//span[contains(text(), 'Please accept Terms and Condition before moving to the next step')]")
+    WebElement termAndConditionErrorMessage;
+
 
     public SignUpPage(WebDriver driver){
         this.driver = driver;
@@ -161,28 +170,76 @@ public class SignUpPage {
         wait.until(ExpectedConditions.elementToBeClickable(signUpButton));
         signUpButton.click();
     }
-    public void enterEmailAddress(String Email){
-//        wait.until(ExpectedConditions.visibilityOf(signUpTitle));
-//        wait.until(ExpectedConditions.visibilityOf(emailAddressLabel));
+
+    public void enterEmailAddress(String email) {
         wait.until(ExpectedConditions.visibilityOf(emailAddress));
         wait.until(ExpectedConditions.elementToBeClickable(emailAddress));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", emailAddress);
         emailAddress.clear();
-        emailAddress.sendKeys(Email);
-        System.out.println("email address is : " + Email);
+
+        // Small pause if dynamic JS is interfering
+        try {
+            Thread.sleep(1500); // optional, but helps in flaky apps
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        emailAddress.sendKeys(email);
+
+        // Final check
+        String value = emailAddress.getAttribute("value");
+        System.out.println("Email entered: " + value);
+        if (!value.equals(email)) {
+            System.out.println("Email input did not persist. Retrying...");
+            emailAddress.clear();
+            emailAddress.sendKeys(email);
+        }
     }
+
 
     public void enterUsername(String UserName){
         wait.until(ExpectedConditions.visibilityOf(username));
         wait.until(ExpectedConditions.elementToBeClickable(username));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", username);
         username.clear();
+
+        // Small pause if dynamic JS is interfering
+        try {
+            Thread.sleep(500); // optional, but helps in flaky apps
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         username.sendKeys(UserName);
-        System.out.println("Username is : " + UserName);
+
+        // Final check
+        String value = username.getAttribute("value");
+        if (!value.equals(UserName)) {
+            username.clear();
+            username.sendKeys(UserName);
+        }
     }
 
     public void enterPassword(String Password){
         wait.until(ExpectedConditions.visibilityOf(password));
         wait.until(ExpectedConditions.elementToBeClickable(password));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", password);
+        password.clear();
+
+        // Small pause if dynamic JS is interfering
+        try {
+            Thread.sleep(500); // optional, but helps in flaky apps
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         password.sendKeys(Password);
+
+        // Optional: validate field was filled
+        String value = password.getAttribute("value");
+
+        // Final check
+        if (!value.equals(Password)) {
+            password.clear();
+            password.sendKeys(Password);
+        }
     }
 
     public void enterConfirmPassword(String ConfirmPassword){
@@ -244,8 +301,6 @@ public class SignUpPage {
     }
 
     public void fillSignUpFormWithValidData(SignupData data){
-//        if(data.getEmail() != null) enterEmailAddress(data.getEmail());
-//        if (data.getUsername() != null) enterUsername(data.getUsername());
         enterPassword(data.getPassword());
         enterConfirmPassword(data.getConfirmPassword());
         enterFirstName(data.getFirstName());
@@ -261,7 +316,7 @@ public class SignUpPage {
         sixthOptionForYear.click();
         enterAddress(data.getAddress());
         selectPhoneNumberCountry();
-        enterPhoneNumber(data.getPhoneNumber());
+        enterPhoneNumber(timestampData.getPhoneNumber());
         enterCity(data.getCity());
         enterPostCode(data.getPostCode());
         country.click();
@@ -270,20 +325,64 @@ public class SignUpPage {
         currency.click();
         wait.until(ExpectedConditions.elementToBeClickable(cadCurrency));
         cadCurrency.click();
-        prefeeredLanguage.click();
-        wait.until(ExpectedConditions.elementToBeClickable(frenchLanguage));
-        frenchLanguage.click();
+        if (!driver.findElements(By.cssSelector("div[id='preferredLanguage']")).isEmpty()) {
+            WebElement preferredLang = driver.findElement(org.openqa.selenium.By.cssSelector("div[id='preferredLanguage']"));
+            preferredLang.click();
+            wait.until(ExpectedConditions.elementToBeClickable(frenchLanguage));
+            frenchLanguage.click();
+        } else {
+            System.out.println("Preferred language field is not present for this site");
+        }
+
+    }
+
+    public void enterInvalidPassword(){
+        SignupData invalidData = Hooks.signupDataWrapper.getSignupWithInvalidData();
+        wait.until(ExpectedConditions.visibilityOf(password));
+        password.sendKeys(invalidData.getPassword());
+        wait.until(ExpectedConditions.visibilityOf(confirmPassword));
+        confirmPassword.sendKeys(invalidData.getConfirmPassword());
     }
 
     public void verifySignupSuccessfulMessage(){
         wait.until(ExpectedConditions.visibilityOf(successMessage));
         successMessage.isDisplayed();
-        Assert.assertEquals(successMessage.getText(),"Success");
+        Assert.assertEquals(successMessage.getText(),"Sign Up Successful");
     }
 
-    public void fillSignUpWithUsernameAndPassword(SignupData data) {
-        enterEmailAddress(data.getEmail());
-        enterUsername(data.getUsername());
+    public void verifyInvalidEmailIdErrorMessage(){
+        wait.until(ExpectedConditions.visibilityOf(invalidEmail));
+        invalidEmail.isDisplayed();
+        Assert.assertEquals(invalidEmail.getText(),"InvalidEmail");
+    }
+
+    public void verifyMismatchedPasswordErrorMessage(){
+        wait.until(ExpectedConditions.visibilityOf(confirmPasswordRequired));
+        confirmPasswordRequired.isDisplayed();
+        Assert.assertEquals(confirmPasswordRequired.getText(),"Password must match");
+    }
+
+    public void verifyWeakPasswordErrorMessage(){
+        wait.until(ExpectedConditions.visibilityOf(passwordIsRequired));
+        passwordIsRequired.isDisplayed();
+        Assert.assertEquals(passwordIsRequired.getText(),"Password must be at least 8 characters long");
+    }
+
+    public void verifyEmailIsAlreadyRegisteredErrorMessage(){
+        String currentUrl = driver.getCurrentUrl();
+        if(currentUrl.contains("shinywilds")){
+            wait.until(ExpectedConditions.visibilityOf(invalidEmail));
+            Assert.assertEquals(invalidEmail.getText(), "This email is already registered");
+        }else {
+            wait.until(ExpectedConditions.visibilityOf(successMessage));
+            Assert.assertEquals(successMessage.getText(), "Duplicate account detected");
+        }
+    }
+
+    public void verifyTermAndConditionErrorMessage(){
+        wait.until(ExpectedConditions.visibilityOf(termAndConditionErrorMessage));
+        termAndConditionErrorMessage.isDisplayed();
+        Assert.assertEquals(termAndConditionErrorMessage.getText(),"Please accept Terms and Condition before moving to the next step");
     }
 
     public void verifyErrorMessage(){
@@ -296,6 +395,20 @@ public class SignUpPage {
         expectedErrors.put(phoneNumberRequired,"Phone Required");
         expectedErrors.put(cityRequired,"City Required");
         expectedErrors.put(postCodeRequired,"Post Code Required");
+
+        for(Map.Entry<WebElement, String> entry: expectedErrors.entrySet()){
+            WebElement errorElement = entry.getKey();
+            String expectedMessage = entry.getValue();
+
+            Assert.assertTrue(errorElement.isDisplayed(),"Error not displayed for field.");
+            Assert.assertEquals(errorElement.getText(),expectedMessage,"Mismatch in error message.");
+        }
+    }
+
+    public void verifyEmailAndUsernameErrorMessage(){
+        Map<WebElement,String> expectedErrors = new HashMap<>();
+        expectedErrors.put(invalidEmail,"Email Required");
+        expectedErrors.put(usernameRequired,"UserName Required");
 
         for(Map.Entry<WebElement, String> entry: expectedErrors.entrySet()){
             WebElement errorElement = entry.getKey();

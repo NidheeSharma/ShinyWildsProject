@@ -16,7 +16,6 @@ import org.testng.Assert;
 
 import java.time.Duration;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
 
 public class LoginPage {
     WebDriver driver;
@@ -216,7 +215,7 @@ WebElement weAreOnlinePopUP;
     }
 
     public void verifyLanguageDropdown(){
-        String expectedGermanLoggedInUrl = JsonReader.getValueFromConfig(site,"expectedGermanLoggedInUrl","src/test/TestData/urlConfig.json");
+        String expectedGermanLoggedInUrl = JsonReader.getValueFromConfig(site,"expectedFinnishLoggedInUrl","src/test/TestData/urlConfig.json");
         Assert.assertEquals(driver.getCurrentUrl(),expectedGermanLoggedInUrl);
     }
 

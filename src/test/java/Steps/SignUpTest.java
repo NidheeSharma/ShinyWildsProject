@@ -1,10 +1,7 @@
 package Steps;
 
 import CommonFile.BasePage;
-import Pages.LoginPage;
 import Pages.SignUpPage;
-import Utils.FakerDataGenerator;
-import Utils.JsonReader;
 import Utils.TimestampDataGenerator;
 import hooks.Hooks;
 import io.cucumber.java.en.And;
@@ -18,167 +15,145 @@ import static hooks.Hooks.test;
 public class SignUpTest {
     SignupData timestampData = TimestampDataGenerator.generateValidSignupData();
     SignUpPage signUpPage = new SignUpPage(BasePage.driver);
-    LoginPage loginPage = new LoginPage(BasePage.driver);
 
 
     @Given("Navigate to the Sign Up page")
     public void navigateToTheSignUpPage() {
-        try {
-            loginPage.clickOnAccept();
-            test.info("Navigating to Signup page");
-            signUpPage.clickOnSignUpButton();
-            test.pass("Navigation to Signup page successfully");
-        } catch (Exception e){
-            test.fail("Failed to Navigate to Signup page" + e.getMessage());
-            test.fail(e);
-        }
+        test.info("Navigating to Signup page");
+        signUpPage.clickOnSignUpButton();
+        test.pass("Navigation to Signup page successfully");
+
     }
 
     @When("User fill the Sign Up form with valid details")
     public void userFillTheSignUpFormWithValidDetails() {
-        try {
-            //SignupData fakeData = FakerDataGenerator.generateValidSignupData();
-            //SignupData data = JsonReader.getObjectFromJson("src/test/resource/signupData.json", SignupData.class);
-            SignupData data = Hooks.signupDataWrapper.getSignupWithValidData();
-            test.info("Enter valid details for Signup");
-            signUpPage.enterEmailAddress(timestampData.getEmail());
-            signUpPage.enterUsername(timestampData.getUsername());
-            signUpPage.fillSignUpFormWithValidData(data);
-            test.pass("Details filled successful for Signup page");
-        }catch (Exception e){
-            test.fail("Failed to fill valid data for Signup" + e.getMessage());
-            test.fail(e);
-        }
-
+        SignupData data = Hooks.signupDataWrapper.getSignupWithValidData();
+        test.info("Enter valid details for Signup");
+        signUpPage.enterEmailAddress(timestampData.getEmail());
+        signUpPage.enterUsername(timestampData.getUsername());
+        signUpPage.fillSignUpFormWithValidData(data);
+        test.pass("Details filled successful for Signup page");
     }
 
     @And("agree to the terms and conditions")
     public void agreeToTheTermsAndConditions() {
-        try {
-            test.info("Accept terms and conditions for successful signup");
-            signUpPage.clickOnConfirmTermAndCondition();
-            test.pass("Successfully accept the terms and conditions for signup");
-        }catch (Exception e){
-            test.fail("Failed to accept the terms and conditions for Signup" + e.getMessage());
-            test.fail(e);
-        }
+         test.info("Accept terms and conditions for successful signup");
+         signUpPage.clickOnConfirmTermAndCondition();
+         test.pass("Successfully accept the terms and conditions for signup");
     }
 
     @And("user submit the SignUp form")
     public void userSubmitTheSignUpForm() {
-        try {
-            test.info("Submit the details for successful signup");
-            signUpPage.clickOnCreateAnAccountButton();
-            test.pass("Successfully submitted all the details for signup");
-        }catch (Exception e){
-            test.fail("Failed to submit all the details for signup" + e.getMessage());
-            test.fail(e);
-        }
+        test.info("Submit the details for successful signup");
+        signUpPage.clickOnCreateAnAccountButton();
+        test.pass("Successfully submitted all the details for signup");
+
     }
 
     @Then("account should be created successfully")
     public void accountShouldBeCreatedSuccessfully() {
-        try {
-            test.info("Signup message should display");
-            signUpPage.verifySignupSuccessfulMessage();
-            test.pass("Signup successful with valid details");
-        }catch (Exception e){
-            test.fail("Failed Signup with valid data");
-            test.fail(e);
-        }
+        test.info("Signup message should display");
+        signUpPage.verifySignupSuccessfulMessage();
+        test.pass("Signup successful with valid details");
     }
-
 
     @When("User fills only email and username fields")
     public void userFillsOnlyEmailAndUsernameFields() {
-        try {
-            test.info("Enter username and password: ");
-            signUpPage.fillSignUpWithUsernameAndPassword(timestampData);
-            test.pass("Data Filled successfully");
-        }catch (Exception e){
-            test.fail("Failed to fill username and email");
-            test.fail(e);
-        }
+        test.info("Enter username and password: ");
+        signUpPage.enterEmailAddress(timestampData.getEmail());
+        signUpPage.enterUsername(timestampData.getUsername());
+        test.pass("Data Filled successfully");
     }
 
     @Then("appropriate error message should be displayed for required fields")
     public void appropriateErrorMessageShouldBeDisplayedForRequiredFields() {
-        try {
-            test.info("Verify appropriate error message: ");
-            signUpPage.verifyErrorMessage();
-            test.pass("Error displayed successful");
-        }catch (Exception e){
-            test.fail("Failed to display error message");
-            test.fail(e);
-        }
+        test.info("Verify appropriate error message: ");
+        signUpPage.verifyErrorMessage();
+        test.pass("Error displayed successful");
     }
 
     @When("User fills the form with invalid email format")
     public void userFillsTheFormWithInvalidEmailFormat() {
-        
+        SignupData invalidData = Hooks.signupDataWrapper.getSignupWithInvalidData();
+        SignupData validData = Hooks.signupDataWrapper.getSignupWithValidData();
+        test.info("Enter Invalid email id for Signup");
+        signUpPage.enterEmailAddress(invalidData.getEmail());
+        signUpPage.enterUsername(timestampData.getUsername());
+        signUpPage.fillSignUpFormWithValidData(validData);
+        test.pass("Details filled successful for Signup page");
     }
 
     @Then("error message for invalid email should be shown")
     public void errorMessageForInvalidEmailShouldBeShown() {
-
+        test.info("Verify appropriate error message for Invalid email id: ");
+        signUpPage.verifyInvalidEmailIdErrorMessage();
+        test.pass("Error displayed successful");
     }
 
     @When("User fills the form with mismatched password and confirm password")
     public void userFillsTheFormWithMismatchedPasswordAndConfirmPassword() {
-        
+        SignupData data = Hooks.signupDataWrapper.getSignupWithValidData();
+        test.info("Enter valid details for Signup");
+        signUpPage.enterEmailAddress(timestampData.getEmail());
+        signUpPage.enterUsername(timestampData.getUsername());
+        signUpPage.fillSignUpFormWithValidData(data);
+        signUpPage.enterConfirmPassword(timestampData.getConfirmPassword());
+        test.pass("Details filled successful for Signup page");
     }
 
     @Then("error message for password mismatch should be shown")
     public void errorMessageForPasswordMismatchShouldBeShown() {
-        
+        test.info("Verify appropriate error message for password mismatch ");
+        signUpPage.verifyMismatchedPasswordErrorMessage();
+        test.pass("Error displayed successful");
     }
 
     @When("User fills the form with weak password")
     public void userFillsTheFormWithWeakPassword() {
-        
+        SignupData validData = Hooks.signupDataWrapper.getSignupWithValidData();
+        test.info("Enter valid details for Signup");
+        signUpPage.enterEmailAddress(timestampData.getEmail());
+        signUpPage.enterUsername(timestampData.getUsername());
+        signUpPage.enterInvalidPassword();
+        test.pass("Details filled successful for Signup page");
     }
 
     @Then("error message for weak password should be shown")
     public void errorMessageForWeakPasswordShouldBeShown() {
-        
+        test.info("Verify appropriate error message for weak password ");
+        signUpPage.verifyWeakPasswordErrorMessage();
+        test.pass("Error displayed successful");
     }
 
     @When("User fills the form with already registered email")
     public void userFillsTheFormWithAlreadyRegisteredEmail() {
-        
+        SignupData data = Hooks.signupDataWrapper.getSignupWithValidData();
+        test.info("Enter valid details for Signup");
+        signUpPage.enterEmailAddress(data.getEmail());
+        signUpPage.enterUsername(timestampData.getUsername());
+        signUpPage.fillSignUpFormWithValidData(data);
+        test.pass("Details filled successful for Signup page");
     }
 
     @Then("error message for duplicate email should be shown")
     public void errorMessageForDuplicateEmailShouldBeShown() {
-        
-    }
-
-    @When("User fills the form with invalid phone number")
-    public void userFillsTheFormWithInvalidPhoneNumber() {
-        
-    }
-
-    @Then("error message for invalid phone number should be shown")
-    public void errorMessageForInvalidPhoneNumberShouldBeShown() {
-
-    }
-
-    @When("User fills the form with invalid postal code")
-    public void userFillsTheFormWithInvalidPostalCode() {
-        
-    }
-
-    @Then("error message for invalid postal code should be shown")
-    public void errorMessageForInvalidPostalCodeShouldBeShown() {
-        
+        test.info("Verify appropriate error message for duplicate email ");
+        signUpPage.verifyEmailIsAlreadyRegisteredErrorMessage();
+        test.pass("Error displayed successful");
     }
 
     @Then("user should be prompted to accept terms and conditions")
     public void userShouldBePromptedToAcceptTermsAndConditions() {
-        
+        test.info("Verify appropriate error message for accept terms and conditions ");
+        signUpPage.verifyTermAndConditionErrorMessage();
+        test.pass("Error displayed successful");
     }
 
     @Then("appropriate error message should be displayed for all required fields")
     public void appropriateErrorMessageShouldBeDisplayedForAllRequiredFields() {
+        test.info("Verify appropriate error messages for all required field: ");
+        signUpPage.verifyEmailAndUsernameErrorMessage();
+        signUpPage.verifyErrorMessage();
+        test.pass("Error displayed successful");
     }
 }

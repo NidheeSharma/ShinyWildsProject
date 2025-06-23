@@ -17,6 +17,26 @@
     "username": "secondUser",
     "password": "Test",
     "confirmPassword": "Test"
+  },
+
+  "myAccountData": {
+    "email": "nidhee.qa@gmail.com",
+    "username": "Nidhee_Sharma",
+    "password": "Data@123",
+    "confirmPassword": "Data@123",
+    "changePassword": "Test@123",
+    "firstName": "Nidhee",
+    "lastName": "Sharma",
+    "phoneNumber": "+91 76435-78899",
+    "day": "1",
+    "month": "1",
+    "year": "2007",
+    "preferredLanguage": "English",
+    "country": "Germany",
+    "currency": "EUR",
+    "address": "add test",
+    "city": "Noida",
+    "postCode": "12345"
   }
 }
 

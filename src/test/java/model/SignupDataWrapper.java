@@ -4,6 +4,7 @@ public class SignupDataWrapper {
 
     private SignupData signupWithValidData;
     private SignupData signupWithInvalidData;
+    private SignupData myAccountData;
 
 
     public SignupData getSignupWithValidData() {
@@ -20,5 +21,13 @@ public class SignupDataWrapper {
 
     public void setSignupWithInvalidData(SignupData signupWithInvalidData) {
         this.signupWithInvalidData = signupWithInvalidData;
+    }
+
+    public SignupData getMyAccountData() {
+        return myAccountData;
+    }
+
+    public void setMyAccountData(SignupData myAccountData) {
+        this.myAccountData = myAccountData;
     }
 }

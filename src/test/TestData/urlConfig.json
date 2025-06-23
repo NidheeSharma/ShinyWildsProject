@@ -1,11 +1,19 @@
 {
-  "shinyWilds":{
-  "baseUrl": "https://www.shinywilds.com/en/",
-  "expectedHomePageUrl": "https://www.shinywilds.com/en/login",
-  "expectedCasinoPageUrl": "https://www.shinywilds.com/en/casino/all",
-  "expectedSignUpPageUrl": "https://www.shinywilds.com/en/signup",
-  "expectedForgotPasswordPageUrl": "https://www.shinywilds.com/en/forgot-password",
-  "expectedGermanLoggedInUrl": "https://www.shinywilds.com/de/login"
+  "shinyWildsStageEnv":{
+  "baseUrl": "https://stage.shinywilds.com",
+  "expectedHomePageUrl": "https://stage.shinywilds.com/en/login",
+  "expectedCasinoPageUrl": "https://stage.shinywilds.com/en/casino/all",
+  "expectedSignUpPageUrl": "https://stage.shinywilds.com/en/signup",
+  "expectedForgotPasswordPageUrl": "https://stage.shinywilds.com/en/forgot-password",
+  "expectedGermanLoggedInUrl": "https://stage.shinywilds.com/de/login"
+  },
+  "shinyWildsProdEnv":{
+    "baseUrl": "https://www.shinywilds.com/en/",
+    "expectedHomePageUrl": "https://www.shinywilds.com/en/login",
+    "expectedCasinoPageUrl": "https://www.shinywilds.com/en/casino/all",
+    "expectedSignUpPageUrl": "https://www.shinywilds.com/en/signup",
+    "expectedForgotPasswordPageUrl": "https://www.shinywilds.com/en/forgot-password",
+    "expectedGermanLoggedInUrl": "https://www.shinywilds.com/de/login"
   },
   "lucky10": {
     "baseUrl": "https://www.lucky10s.com/en/",

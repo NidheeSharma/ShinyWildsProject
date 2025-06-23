@@ -1,7 +1,6 @@
 package hooks;
 
 import CommonFile.BasePage;
-import Pages.LoginPage;
 import Utils.ConfigManager;
 import Utils.ExtentManager;
 import Utils.JsonReader;
@@ -44,7 +43,7 @@ public class Hooks {
 
     @Before(order = 1)
     public void setUpScenario(Scenario scenario) throws InterruptedException {
-        basePage.luanchURL(baseUrl);
+        basePage.launchURL(baseUrl);
         test = extent.createTest(scenario.getName());
     }
 

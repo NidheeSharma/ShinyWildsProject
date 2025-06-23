@@ -5,7 +5,11 @@ public class ConfigManager {
         return System.getProperty("site", "shinyWilds");
     }
 
-    public static String getValidationMessage(){
+    public static String getLoginValidationMessage(){
         return System.getProperty("loginValidation", "loginValidationMessage");
+    }
+
+    public static String getAccountValidationMessage(){
+        return System.getProperty("myAccountValidation", "myAccountValidationMessage");
     }
 }

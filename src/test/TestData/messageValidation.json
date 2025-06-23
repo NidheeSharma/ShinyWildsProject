@@ -3,6 +3,10 @@
   "expectedInvalidUsernameAndPasswordErrorMsg": "Invalid username/email or password",
   "expectedUsernameRequiredMsg": "Email/Username Required",
   "expectedPasswordRequiredMsg": "Password is required"
+  },
+  "myAccountValidationMessage": {
+    "expectedPasswordChangeSuccessfullyMsg": "Password Updated Successfully",
+    "expectedErrorMsgWithSamePassword": "The new password cannot be the same as your current password. Please choose a different password."
   }
 
 }

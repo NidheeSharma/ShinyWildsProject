@@ -16,6 +16,7 @@ import org.testng.Assert;
 
 import java.time.Duration;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 public class LoginPage {
     WebDriver driver;
@@ -62,7 +63,7 @@ WebElement hidePassword;
 @FindBy(css = "button[class='dropdown-toggle']")
 WebElement languageDropdown;
 
-@FindBy(css = "a[class='dropdown-item user']:nth-of-type(3)")
+@FindBy(css = "div[class='dropdown-menu dropdown-menu-right show'] > a[class='dropdown-item user']:nth-of-type(2)")
 WebElement german;
 
 @FindBy(css = "button[class='btn btn-secondary dropdown-toggle']")
@@ -77,6 +78,12 @@ WebElement successMessage;
 @FindBy(className = "siqico-close")
 WebElement crossForPopup;
 
+@FindBy(css = "svg[aria-hidden='true'] > path[fill-rule='evenodd']")
+WebElement successfulChangePasswordPopupCrossButton;
+
+@FindBy(css = "svg[aria-hidden='true']")
+WebElement successfulLoginPopupCrossButton;
+
 @FindBy(id = "titlediv")
 WebElement weAreOnlinePopUP;
 
@@ -86,7 +93,7 @@ WebElement weAreOnlinePopUP;
     PageFactory.initElements(driver,this);
     wait = new WebDriverWait(driver,Duration.ofSeconds(10));
     site = ConfigManager.getSite();
-    loginValidation = ConfigManager.getValidationMessage();
+    loginValidation = ConfigManager.getLoginValidationMessage();
 }
 
     public void clickOnAccept() {
@@ -113,6 +120,11 @@ WebElement weAreOnlinePopUP;
     wait.until(ExpectedConditions.elementToBeClickable(loginButtonOnHomePage));
     loginButtonOnHomePage.click(); }
 
+    public void clickOnCrossButton(){
+        wait.until(ExpectedConditions.elementToBeClickable(successfulChangePasswordPopupCrossButton));
+        successfulChangePasswordPopupCrossButton.click();
+    }
+
     public void setEnterUserName(String userName){
     wait.until(ExpectedConditions.visibilityOf(enterUserName));
     wait.until(ExpectedConditions.elementToBeClickable(enterUserName));
@@ -135,8 +147,9 @@ WebElement weAreOnlinePopUP;
     }
 
     public void verifyLoginIsSuccessful(){
+        String actualHomePageURL = driver.getCurrentUrl();
         String expectedHomePageURL = JsonReader.getValueFromConfig(site,"expectedHomePageUrl","src/test/TestData/urlConfig.json");
-        Assert.assertEquals(expectedHomePageURL,driver.getCurrentUrl(),"User is not log In");
+        Assert.assertEquals(actualHomePageURL,expectedHomePageURL,"User is not log In");
     }
 
     public void verifyInvalidUsernameAndPasswordErrorMassage(){
@@ -215,8 +228,14 @@ WebElement weAreOnlinePopUP;
     }
 
     public void verifyLanguageDropdown(){
-        String expectedGermanLoggedInUrl = JsonReader.getValueFromConfig(site,"expectedFinnishLoggedInUrl","src/test/TestData/urlConfig.json");
-        Assert.assertEquals(driver.getCurrentUrl(),expectedGermanLoggedInUrl);
+        String currentUrl = driver.getCurrentUrl();
+        if(currentUrl.contains("shinywilds")||currentUrl.contains("lucky10")){
+            String expectedGermanLoggedInUrl = JsonReader.getValueFromConfig(site,"expectedGermanLoggedInUrl","src/test/TestData/urlConfig.json");
+            Assert.assertEquals(driver.getCurrentUrl(),expectedGermanLoggedInUrl);
+        }else {
+            String expectedFinnishLoggedInUrl = JsonReader.getValueFromConfig(site,"expectedFinnishLoggedInUrl","src/test/TestData/urlConfig.json");
+            Assert.assertEquals(driver.getCurrentUrl(),expectedFinnishLoggedInUrl);
+        }
     }
 
     public void clickOnLogoutButton() {

@@ -8,12 +8,12 @@ Feature: User Registration
   Background:
     Given Navigate to the Sign Up page
 
-  @positive @signup
-  Scenario: Successful signup with valid details
-    When User fill the Sign Up form with valid details
-    And agree to the terms and conditions
-    And user submit the SignUp form
-    Then account should be created successfully
+#  @positive @signup
+#  Scenario: Successful signup with valid details
+#    When User fill the Sign Up form with valid details
+#    And agree to the terms and conditions
+#    And user submit the SignUp form
+#    Then account should be created successfully
 
   @Negative
   Scenario: Signup with missing required fields

@@ -14,5 +14,9 @@
   "validUsernameEmptyPassword": {
     "email": "rahulfrtest",
     "password": ""
+  },
+  "reLoginViaChangePassword": {
+    "email": "nidhee.qa@gmail.com",
+    "password": "Data@123"
   }
 }

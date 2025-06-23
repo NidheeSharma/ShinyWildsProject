@@ -157,6 +157,12 @@ public class SignUpPage {
     @FindBy(xpath = "//span[contains(text(), 'Please accept Terms and Condition before moving to the next step')]")
     WebElement termAndConditionErrorMessage;
 
+    @FindBy(css = "label[for='male'] > span[class='checkmark']")
+    WebElement man;
+
+    @FindBy(css = "div[class='custom-form-group']:nth-of-type(11) div[class='error-message']")
+    WebElement genderRequired;
+
 
     public SignUpPage(WebDriver driver){
         this.driver = driver;
@@ -333,6 +339,7 @@ public class SignUpPage {
         } else {
             System.out.println("Preferred language field is not present for this site");
         }
+        //man.click();
 
     }
 
@@ -395,6 +402,7 @@ public class SignUpPage {
         expectedErrors.put(phoneNumberRequired,"Phone Required");
         expectedErrors.put(cityRequired,"City Required");
         expectedErrors.put(postCodeRequired,"Post Code Required");
+        //expectedErrors.put(genderRequired,"Gender Required");
 
         for(Map.Entry<WebElement, String> entry: expectedErrors.entrySet()){
             WebElement errorElement = entry.getKey();

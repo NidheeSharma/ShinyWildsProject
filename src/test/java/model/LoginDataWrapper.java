@@ -5,6 +5,7 @@ public class LoginDataWrapper {
     private LoginData invalidLogin;
     private LoginData emptyFields;
     private LoginData validUsernameEmptyPassword;
+    private LoginData usernamePasswordForChangePassword;
     private LoginData reLoginViaChangePassword;
 
     // Getters and Setters
@@ -46,5 +47,13 @@ public class LoginDataWrapper {
 
     public void setReLoginViaChangePassword(LoginData reLoginViaChangePassword) {
         this.reLoginViaChangePassword = reLoginViaChangePassword;
+    }
+
+    public LoginData getUsernamePasswordForChangePassword() {
+        return usernamePasswordForChangePassword;
+    }
+
+    public void setUsernamePasswordForChangePassword(LoginData usernamePasswordForChangePassword) {
+        this.usernamePasswordForChangePassword = usernamePasswordForChangePassword;
     }
 }

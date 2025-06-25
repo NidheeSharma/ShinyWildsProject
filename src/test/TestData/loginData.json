@@ -15,8 +15,12 @@
     "email": "rahulfrtest",
     "password": ""
   },
+  "usernamePasswordForChangePassword": {
+    "email": "nidhee@amgplatform.com",
+    "password": "Test@123"
+  },
   "reLoginViaChangePassword": {
-    "email": "nidhee.qa@gmail.com",
+    "email": "nidhee@amgplatform.com",
     "password": "Data@123"
   }
 }

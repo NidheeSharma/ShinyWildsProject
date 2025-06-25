@@ -22,7 +22,7 @@ public class MyAccountTest {
         loginPage.clickOnLoginButtonOnHomePage();
         test.pass("Navigation to login page successful");
 
-        LoginData data = Hooks.loginDataWrapper.getValidLogin();
+        LoginData data = Hooks.loginDataWrapper.getUsernamePasswordForChangePassword();
         test.info("Entering valid username and password");
         loginPage.enterUsernameAndPassword(data.getEmail(), data.getPassword());
         loginPage.clickOnLoginButton();

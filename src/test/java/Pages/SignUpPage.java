@@ -377,7 +377,7 @@ public class SignUpPage {
 
     public void verifyEmailIsAlreadyRegisteredErrorMessage(){
         String currentUrl = driver.getCurrentUrl();
-        if(currentUrl.contains("shinywilds")){
+        if(currentUrl.contains("shinywilds")||currentUrl.contains("betterwin")){
             wait.until(ExpectedConditions.visibilityOf(invalidEmail));
             Assert.assertEquals(invalidEmail.getText(), "This email is already registered");
         }else {
